@@ -1,6 +1,7 @@
 version: '3'
 services:
   master:
+    restart: unless-stopped
     build: ./jenkins
     ports:
       - "50000:50000"
@@ -10,11 +11,14 @@ services:
     networks:
       - jenkins-net
   nginx:
+    restart: unless-stopped
     build: ./nginx
     ports:
       - "80:80"
     networks:
       - jenkins-net
+    depends_on:
+      - master
 volumes:
   jenkins-data:
   jenkins-log:
